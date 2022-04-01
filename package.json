@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/yang862/history-keep-alive-example#readme",
   "dependencies": {
-    "history-keep-alive": "0.0.4",
+    "history-keep-alive": "0.0.6",
     "vant": "^2.12.44",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6"
@@ -34,10 +34,11 @@
     "babel-plugin-import": "^1.13.3",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^5.2.7",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.4.1",
     "install": "^0.13.0",
     "less": "^4.1.2",
-    "less-loader": "^10.2.0",
+    "less-loader": "^7.3.0",
     "npm": "^8.5.4",
     "postcss-loader": "^3.0.0",
     "style-loader": "^2.0.0",

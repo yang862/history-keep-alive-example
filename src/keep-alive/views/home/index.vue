@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <router-link to="cart">购物车</router-link>
+  <div class="bg">
+    <keep-alive>
+      <router-view />
+    </keep-alive>
     <van-tabbar
       v-model="active"
       placeholder
@@ -12,7 +14,7 @@
         :to="{name:tabNames[0]}"
         replace
       >
-        工作
+        首页
       </van-tabbar-item>
       <van-tabbar-item
         :name="tabNames[1]"
@@ -20,7 +22,7 @@
         :to="{name:tabNames[1]}"
         replace
       >
-        工作
+        购物车
       </van-tabbar-item>
       <van-tabbar-item
         :name="tabNames[2]"
@@ -28,7 +30,7 @@
         :to="{name:tabNames[2]}"
         replace
       >
-        工作
+        我的
       </van-tabbar-item>
     </van-tabbar>
   </div>
@@ -38,16 +40,11 @@ export default {
   data() {
     return {
       active: 'list',
-      tabNames: [ 'list', 'detail', 'message' ],
+      tabNames: [ 'list', 'cart', 'usercenter' ],
     }
   },
-  async created() {
-    await this.test()
+  created() {
+    this.active = this.$route.name
   },
-  methods: {
-    test() {
-      console.log('created test----')
-    }
-  }
 }
 </script>
