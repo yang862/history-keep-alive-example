@@ -1,35 +1,62 @@
 const path = require('path')
+const { merge } = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const common = require('./webpack.config.common.js')
 
-module.exports = {
-  mode: 'production',
-  entry: './src/index.js',
+const defaultConfig = merge(common, {
+  entry: {
+    default: './src/default/index.js'
+  },
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, '../dist')
+    publicPath: 'https://yang862.github.io/history-default-page/',
+    filename: 'chunks/index.[hash].bundle.js',
+    chunkFilename: 'chunks/[name].[hash].bundle.js',
+    path: path.resolve(__dirname, '../dist/default/')
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'history-keep-alive example',
-      template: './src/index.html'
+      template: './src/default/index.html',
+      filename: 'index.html',
     })
   ],
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          "less-loader",
-        ]
-      },
-    ]
-  }
-}
+})
+const keepAliveConfig = merge(common, {
+  entry: {
+    'keep-alive': './src/keep-alive/index.js'
+  },
+  output: {
+    publicPath: 'https://yang862.github.io/history-keep-alive-page/',
+    filename: 'chunks/index.[hash].bundle.js',
+    chunkFilename: 'chunks/[name].[hash].bundle.js',
+    path: path.resolve(__dirname, '../dist/keep-alive/')
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/keep-alive/index.html',
+      filename: 'index.html',
+    })
+  ]
+})
+const transitionConfig = merge(common, {
+  entry: {
+    transition: './src/transition/index.js'
+  },
+  output: {
+    publicPath: 'https://yang862.github.io/history-transition-page/',
+    filename: 'chunks/index.[hash].bundle.js',
+    chunkFilename: 'chunks/[name].[hash].bundle.js',
+    path: path.resolve(__dirname, '../dist/transition/')
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/transition/index.html',
+      filename: 'index.html',
+    })
+  ],
+})
+
+module.exports = [
+  transitionConfig,
+  defaultConfig,
+  keepAliveConfig,
+]

@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     default: './src/default/index.js',
     'keep-alive': './src/keep-alive/index.js',
@@ -12,35 +12,12 @@ module.exports = {
   output: {
     publicPath: '/',
     filename: '[name]/bundle.js',
-    path: path.resolve(__dirname, '../src/public/')
+    path: path.resolve(__dirname, '../dist')
   },
   resolve: {
     alias: {
       '@keepAlive': path.resolve(__dirname, '../src/keep-alive/'),
       '@transition': path.resolve(__dirname, '../src/transition/'),
-    },
-  },
-  devServer: {
-    static: path.resolve(__dirname, '../src/public/'),
-    port: 9000,
-    open: false,
-    hot: true,
-    historyApiFallback: {
-      index: '/default/index.html',
-      rewrites: [
-        {
-          from: /^\/history-default-page(\/.*)?$/,
-          to: '/default/index.html',
-        },
-        {
-          from: /^\/history-keep-alive-page(\/.*)?$/,
-          to: '/keep-alive/index.html',
-        },
-        {
-          from: /^\/history-transition-page(\/.*)?$/,
-          to: '/transition/index.html',
-        },
-      ]
     },
   },
   plugins: [
@@ -61,43 +38,8 @@ module.exports = {
       filename: 'transition/index.html',
     })
   ],
-  resolve: {
-    alias: {
-      '@keepAlive': path.resolve(__dirname, '../src/keep-alive/'),
-      '@transition': path.resolve(__dirname, '../src/transition/'),
-    },
-  },
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        include: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          plugins: [
-            // 解决 Uncaught ReferenceError: regeneratorRuntime is not defined 报错
-            // 使用webpack-dev-server时，.babelrc的配置不生效，所以在这里再配置使之生效
-            '@babel/plugin-transform-runtime'
-          ]
-        }
-      },
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   exclude: path.resolve(__dirname, '../src/views/'),
-      //   loader: 'babel-loader',
-      //   options: {
-      //     plugins: [
-      //       [
-      //         'import',
-      //         {
-      //           'libraryName': 'vant',
-      //           'libraryDirectory': 'es',
-      //           'style': true
-      //         }
-      //       ],
-      //     ]
-      //   }
-      // },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
@@ -117,6 +59,7 @@ module.exports = {
             less: [
               { loader: 'postcss-loader' }
             ],
+
           }
         }
       },
@@ -138,5 +81,52 @@ module.exports = {
         ]
       },
     ]
+  },
+
+  optimization: {
+    splitChunks: {
+      chunks: 'initial',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 5,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vant: {
+          name: 'vant',
+          minChunks: 1,
+          test: /[\\/]node_modules[\\/]vant[\\/]/,
+          // 优先级更高
+          priority: 10
+        },
+        vendors: {
+          name: 'vendors',
+          minChunks: 3,
+          test: /[\\/]node_modules[\\/]/,
+          // 优先级更高
+          priority: 9
+        },
+        // 'transition-vendors': {
+        //   name: 'transition-vendors',
+        //   minChunks: 3,
+        //   chunks(chunk) {
+        //     return chunk.name === 'transition';
+        //   },
+        //   reuseExistingChunk: true,
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: 8
+        // },
+        // 'transition-initial': {
+        //   name: 'transition-initial',
+        //   minChunks: 1,
+        //   chunks(chunk) {
+        //     return chunk.name === 'transition';
+        //   },
+        //   reuseExistingChunk: true,
+        //   priority: 7
+        // }
+      },
+    },
   }
 }

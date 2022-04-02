@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [ ...mainRoutes ]
 
 const createRouter = () => new VueRouter({
-  base: 'transition',
+  base: 'history-transition-page',
   mode: 'history',
   routes: routes
 })
