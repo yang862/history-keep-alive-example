@@ -36,7 +36,7 @@ export default {
     }
   },
   created() {
-    this.active = this.$route.name
+    this.active = this.$route.name;
   },
 }
 </script>

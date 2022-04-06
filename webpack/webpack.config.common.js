@@ -16,7 +16,7 @@ module.exports = {
       openAnalyzer: false,
       analyzerMode: 'static'
     }),
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
   ],
   module: {
     rules: [
