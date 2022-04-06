@@ -2,6 +2,7 @@ const path = require('path')
 const { merge } = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const common = require('./webpack.config.common.js')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const defaultConfig = merge(common, {
   entry: {
@@ -17,7 +18,8 @@ const defaultConfig = merge(common, {
     new HtmlWebpackPlugin({
       template: './src/default/index.html',
       filename: 'index.html',
-    })
+    }),
+    new CleanWebpackPlugin(),
   ],
 })
 const keepAliveConfig = merge(common, {
@@ -56,7 +58,7 @@ const transitionConfig = merge(common, {
 })
 
 module.exports = [
-  transitionConfig,
   defaultConfig,
   keepAliveConfig,
+  transitionConfig,
 ]
