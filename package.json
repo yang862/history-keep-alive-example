@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/yang862/history-keep-alive-example#readme",
   "dependencies": {
-    "history-keep-alive": "^0.1.5",
+    "history-keep-alive": "^0.1.7",
     "vant": "^2.12.44",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6"
