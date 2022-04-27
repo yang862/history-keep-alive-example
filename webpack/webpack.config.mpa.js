@@ -1,5 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -11,7 +13,8 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    filename: '[name]/bundle.js',
+    filename: '[name]/index.[hash].bundle.js',
+    chunkFilename: 'chunks/[name].[hash].bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
   resolve: {
@@ -21,6 +24,10 @@ module.exports = {
     },
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerMode: 'static'
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/default/index.html',
@@ -45,6 +52,9 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
+            options: {
+              outputPath: 'assets'
+            }
           },
         ],
       },
@@ -84,6 +94,7 @@ module.exports = {
   },
 
   optimization: {
+    minimizer: [new TerserPlugin()],
     splitChunks: {
       chunks: 'initial',
       minSize: 30000,

@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -c ./webpack/webpack.config.js",
-    "build:t": "webpack -c ./webpack/webpack.config.transition.js",
-    "build:k": "webpack -c ./webpack/webpack.config.keep-alive.js",
+    "build:mpa": "webpack -c ./webpack/webpack.config.mpa.js",
     "dev": "webpack serve -c ./webpack/webpack.config.dev.js"
   },
   "repository": {
@@ -21,7 +20,7 @@
   },
   "homepage": "https://github.com/yang862/history-keep-alive-example#readme",
   "dependencies": {
-    "history-keep-alive": "^0.1.8",
+    "history-keep-alive": "^0.1.10",
     "vant": "^2.12.44",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6"
